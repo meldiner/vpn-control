@@ -13,7 +13,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build-android": "npm run build && cordova platforms add android && cordova build android",
+    "run-android": "npm run build && ( cordova platforms add android || true ) && cordova run android",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
