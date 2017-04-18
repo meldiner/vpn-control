@@ -15,25 +15,25 @@ class IpInfo extends Component {
   }
 
   componentDidMount() {
-    this.refresh();    
+    this.refresh();
   }
 
   refresh() {
-    this.setState((prevState, props) => ({ 
+    this.setState({
       message: REFRESH_MESSAGE
-    }));
+    });
 
     fetch('http://ipinfo.io/json')
       .then(response => response.json())
       .then(response => {
-        this.setState((prevState, props) => ({ 
+        this.setState({
           message: JSON.stringify(response, null, 2)
-        }));
+        });
       })
       .catch(error => {
-        this.setState((prevState, props) => ({ 
+        this.setState({
           message: `Error: ${error.message}`
-        }));
+        });
       });
   }
 
