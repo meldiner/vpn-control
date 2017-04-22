@@ -1,5 +1,6 @@
 import {
   UPDATE_ROUTER_ACCESS_SETTINGS,
+  LOAD_VPN_CONNECTIONS,
   ADD_VPN_CONNECTION,
   DELETE_VPN_CONNECTION,
   UPDATE_VPN_CONNECTION
@@ -18,6 +19,10 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_ROUTER_ACCESS_SETTINGS:
       newState = { ...state, [action.key]: action.value };
+      return newState;
+    case LOAD_VPN_CONNECTIONS:
+      newState = { ...state };
+      newState.vpn = action.connections;
       return newState;
     case ADD_VPN_CONNECTION:
       newState = { ...state };
