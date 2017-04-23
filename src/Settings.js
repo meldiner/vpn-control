@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import "./Settings.css";
 import VpnSettings from "./VpnSettings";
 import { connect } from "react-redux";
-import { UPDATE_ROUTER_ACCESS_SETTINGS, LOAD_VPN_CONNECTIONS } from "./actions";
-import { getVpnConnections } from "./router";
+import {
+  updateRouterAccessSettings,
+  loadVpnConnectionsRequest,
+  loadVpnConnectionsFailure,
+  loadVpnConnectionsSuccess
+} from "./actions";
+import { fetchVpnConnections } from "./router";
 
 class Settings extends Component {
   constructor(props) {
@@ -22,14 +27,12 @@ class Settings extends Component {
     this.props.handleChange(name, value);
   };
 
-  loadVpnConnections = () => {
-    getVpnConnections(this.props.ip, this.props.username, this.props.password)
-      .then(connections => {
-        this.props.handleLoad(connections);
-      })
-      .catch(error => {
-        console.log("Error loading VPN connections", error);
-      });
+  handleLoad = event => {
+    this.props.handleLoad(
+      this.props.ip,
+      this.props.username,
+      this.props.password
+    );
   };
 
   render() {
@@ -65,7 +68,7 @@ class Settings extends Component {
             onChange={this.handleChange}
           />
         </label>
-        <button type="button" onClick={this.loadVpnConnections}>
+        <button type="button" onClick={this.handleLoad}>
           Load
         </button>
         <br />
@@ -77,25 +80,27 @@ class Settings extends Component {
 
 const mapStateToProps = state => {
   return {
-    ip: state.ip,
-    username: state.username,
-    password: state.password
+    ip: state.access.ip,
+    username: state.access.username,
+    password: state.access.password
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     handleChange: (key, value) =>
-      dispatch({
-        type: UPDATE_ROUTER_ACCESS_SETTINGS,
-        key,
-        value
-      }),
-    handleLoad: connections =>
-      dispatch({
-        type: LOAD_VPN_CONNECTIONS,
-        connections
-      })
+      dispatch(updateRouterAccessSettings(key, value)),
+    handleLoad: (ip, username, password) => {
+      dispatch(loadVpnConnectionsRequest());
+
+      return fetchVpnConnections(ip, username, password)
+        .then(connections => {
+          dispatch(loadVpnConnectionsSuccess(connections));
+        })
+        .catch(error => {
+          dispatch(loadVpnConnectionsFailure(error));
+        });
+    }
   };
 };
 

@@ -42,7 +42,7 @@ class VpnSettings extends Component {
     return (
       <div className="VpnSettings">
         <ul>
-          {this.props.vpn.map((item, index) => (
+          {this.props.connections.map((item, index) => (
             <li key={index}>
               <label>
                 Name:
@@ -139,7 +139,8 @@ class VpnSettings extends Component {
 
 const mapStateToProps = state => {
   return {
-    vpn: state.vpn
+    status: state.vpn.status,
+    connections: state.vpn.connections
   };
 };
 

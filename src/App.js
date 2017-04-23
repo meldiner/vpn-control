@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import IpInfo from './IpInfo';
-import Settings from './Settings'
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import IpInfo from "./IpInfo";
+import Control from "./Control";
+import Settings from "./Settings";
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
           <h2>VPN Control</h2>
         </div>
         <IpInfo />
+        <Control />
         <Settings />
       </div>
     );
