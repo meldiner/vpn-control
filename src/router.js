@@ -7,7 +7,7 @@ const createRouterRequest = (
   method,
   path,
   headers = {},
-  body = ""
+  body = undefined
 ) => {
   const url = `http://${ip}/${path}`;
   const userpassascii = `${username}:${password}`;
@@ -16,12 +16,14 @@ const createRouterRequest = (
     method,
     credentials: "include",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
       authorization,
       ...headers
-    },
-    body
+    }
   };
+
+  if (body) {
+    init.body = body;
+  }
 
   return new Request(url, init);
 };
@@ -43,7 +45,7 @@ export const fetchVpnConnections = (ip, username, password) => {
 
       return {
         name: values[0],
-        protocol: values[1],
+        protocol: values[1].toLocaleLowerCase(),
         server: values[2],
         username: values[3],
         password: values[4],
@@ -68,7 +70,7 @@ export const vpnConnect = (
     `vpnc_heartbeat_x=${server}`,
     `vpnc_proto=${protocol}`,
     `vpnc_type=${type}`
-  ];
+  ].join("&");
 
   const request = createRouterRequest(
     routerIp,
@@ -77,8 +79,19 @@ export const vpnConnect = (
     "POST",
     "start_apply.htm",
     {},
-    body.join("&")
+    body
   );
 
   return fetch(request);
+};
+
+export const vpnDisconnect = (routerIp, routerUsername, routerPassword) => {
+  return vpnConnect(routerIp, routerUsername, routerPassword, {
+    server: "",
+    username: "",
+    password: "",
+    protocol: "disable",
+    type: "",
+    autoConnect: ""
+  });
 };
