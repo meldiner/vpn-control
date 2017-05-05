@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import "./Control.css";
+import "./VpnControl.css";
 import { connect } from "react-redux";
-import { vpnConnect, vpnDisconnect } from "./router";
+import { vpnConnect, vpnDisconnect } from "../router";
 
-class Control extends Component {
+class VpnControl extends Component {
   handleConnect = event => {
     const target = event.target;
     const index = parseInt(target.dataset.index, 10);
@@ -56,4 +56,4 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Control);
+export default connect(mapStateToProps, mapDispatchToProps)(VpnControl);
