@@ -1,16 +1,7 @@
 import React, { Component } from "react";
-import "./Settings.css";
-import VpnSettings from "./VpnSettings";
-import { connect } from "react-redux";
-import {
-  updateRouterAccessSettings,
-  loadVpnConnectionsRequest,
-  loadVpnConnectionsFailure,
-  loadVpnConnectionsSuccess
-} from "./actions";
-import { fetchVpnConnections } from "./router";
+import "./AccessSettings.css";
 
-class Settings extends Component {
+class AccessSettings extends Component {
   constructor(props) {
     super(props);
 
@@ -37,7 +28,7 @@ class Settings extends Component {
 
   render() {
     return (
-      <div className="Settings">
+      <div className="AccessSettings">
         <label>
           IP:
           {" "}
@@ -71,37 +62,9 @@ class Settings extends Component {
         <button type="button" onClick={this.handleLoad}>
           Load
         </button>
-        <br />
-        <VpnSettings />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ip: state.access.ip,
-    username: state.access.username,
-    password: state.access.password
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    handleChange: (key, value) =>
-      dispatch(updateRouterAccessSettings(key, value)),
-    handleLoad: (ip, username, password) => {
-      dispatch(loadVpnConnectionsRequest());
-
-      return fetchVpnConnections(ip, username, password)
-        .then(connections => {
-          dispatch(loadVpnConnectionsSuccess(connections));
-        })
-        .catch(error => {
-          dispatch(loadVpnConnectionsFailure(error));
-        });
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default AccessSettings;

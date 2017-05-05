@@ -1,11 +1,5 @@
 import React, { Component } from "react";
 import "./VpnSettings.css";
-import { connect } from "react-redux";
-import {
-  ADD_VPN_CONNECTION,
-  DELETE_VPN_CONNECTION,
-  UPDATE_VPN_CONNECTION
-} from "./actions";
 
 class VpnSettings extends Component {
   handleChange = event => {
@@ -137,32 +131,4 @@ class VpnSettings extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    status: state.vpn.status,
-    connections: state.vpn.connections
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    handleAdd: connection =>
-      dispatch({
-        type: ADD_VPN_CONNECTION,
-        connection
-      }),
-    handleChange: (index, connection) =>
-      dispatch({
-        type: UPDATE_VPN_CONNECTION,
-        index,
-        connection
-      }),
-    handleDelete: index =>
-      dispatch({
-        type: DELETE_VPN_CONNECTION,
-        index
-      })
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(VpnSettings);
+export default VpnSettings;

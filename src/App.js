@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import IpInfo from "./IpInfo";
+import IpInfo from "./components/IpInfo";
 import Control from "./Control";
-import Settings from "./Settings";
+import Settings from "./containers/Settings";
 
 class App extends Component {
   render() {
